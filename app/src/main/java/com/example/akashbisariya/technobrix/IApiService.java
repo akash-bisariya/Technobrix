@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 /**
@@ -11,6 +13,9 @@ import retrofit2.http.POST;
  */
 
 public interface IApiService {
-@POST("nearbyevent")
-Call<ModelData> getData(@Body HashMap userHashmap);
+    @POST("nearbyevent")
+    @FormUrlEncoded
+    Call<ModelData> savePost(@Field("userId") int userId,
+                        @Field("latitude") double lat,
+                        @Field("longitude") double longs);
 }

@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 /**
  * Created by akash bisariya on 21-01-2018.
  */
@@ -18,11 +20,9 @@ public class ListFragment extends android.support.v4.app.Fragment {
         View view= inflater.inflate(R.layout.fragment_list,container,false);
         RecyclerView rvList = view.findViewById(R.id.rv_list);
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
-
-
-
+        ArrayList<ModelData.Data> arrayList = new ArrayList<>();
+        arrayList.addAll((ArrayList<ModelData.Data>)getArguments().getSerializable("eventList"));
+        rvList.setAdapter(new RecyclerListAdapter(getActivity(),arrayList));
         return view;
     }
 

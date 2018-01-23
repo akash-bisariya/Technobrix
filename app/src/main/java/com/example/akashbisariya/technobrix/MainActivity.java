@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TableLayout;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import okhttp3.OkHttpClient;
@@ -19,16 +20,19 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    ViewPager vpMapList;
-    TabLayout tbMapList;
+    private ViewPager vpMapList;
+    private TabLayout tbMapList;
+    ViewPagerAdapter vpAdapter;
+    private ArrayList<ModelData.Data> eventList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+         setContentView(R.layout.activity_main);
         vpMapList=findViewById(R.id.vp_map_list);
         tbMapList=findViewById(R.id.tb_map_list);
-        vpMapList.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
-        tbMapList.setupWithViewPager(vpMapList);
+//        vpAdapter = new ViewPagerAdapter(getSupportFragmentManager(),eventList);
+//        vpMapList.setAdapter(vpAdapter);
+//        tbMapList.setupWithViewPager(vpMapList);
 
 
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
@@ -38,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 .addInterceptor(httpLoggingInterceptor)
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://evenzt.com/beta/eventmanagement/api/")
+                .baseUrl("http://evenzt.com/eventmanagement/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
@@ -46,15 +50,21 @@ public class MainActivity extends AppCompatActivity {
 
         IApiService apiService = retrofit.create(IApiService.class);
         HashMap<String,Double> hashMap = new HashMap<>();
-
+        hashMap.put("userId", (double) 5);
         hashMap.put("latitude",28.56202190822998);
         hashMap.put("longitude",77.2709018737077);
-        hashMap.put("userId",5.0);
-        Call<ModelData> call = apiService.getData(hashMap);
-        call.enqueue(new Callback<ModelData>() {
+
+        Call<ModelData> call1 =apiService.savePost(5,28.56202190822998,77.2709018737077);
+        call1.enqueue(new Callback<ModelData>() {
             @Override
             public void onResponse(Call<ModelData> call, Response<ModelData> response) {
                 Log.d("","");
+                if(response.body()!=null)
+                eventList.addAll(response.body().getData());
+//                vpAdapter.notifyDataSetChanged();
+                vpAdapter = new ViewPagerAdapter(getSupportFragmentManager(),eventList);
+                vpMapList.setAdapter(vpAdapter);
+                tbMapList.setupWithViewPager(vpMapList);
             }
 
             @Override

@@ -6,7 +6,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TableLayout;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,8 +26,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     private ViewPager vpMapList;
     private TabLayout tbMapList;
-    ViewPagerAdapter vpAdapter;
+    private ViewPagerAdapter vpAdapter;
+    private ProgressBar pbProgress;
     private ArrayList<ModelData.Data> eventList = new ArrayList<>();
+    private ArrayList<LatLng> latlongList= new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
 //        vpAdapter = new ViewPagerAdapter(getSupportFragmentManager(),eventList);
 //        vpMapList.setAdapter(vpAdapter);
 //        tbMapList.setupWithViewPager(vpMapList);
+        pbProgress=findViewById(R.id.pb_progress);
+        pbProgress.setVisibility(View.VISIBLE);
+
 
 
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
@@ -62,14 +71,28 @@ public class MainActivity extends AppCompatActivity {
                 if(response.body()!=null)
                 eventList.addAll(response.body().getData());
 //                vpAdapter.notifyDataSetChanged();
-                vpAdapter = new ViewPagerAdapter(getSupportFragmentManager(),eventList);
+
+
+                for(int i=0;i<eventList.size();i++)
+                {
+                    LatLng latLng = new LatLng(Double.parseDouble(eventList.get(i).getLatitude()),Double.parseDouble(eventList.get(i).getLongitude()));
+                    latlongList.add(latLng);
+                }
+                vpAdapter = new ViewPagerAdapter(getSupportFragmentManager(),eventList,latlongList);
                 vpMapList.setAdapter(vpAdapter);
                 tbMapList.setupWithViewPager(vpMapList);
+                vpMapList.setVisibility(View.VISIBLE);
+                pbProgress.setVisibility(View.GONE);
+
+
+
             }
 
             @Override
             public void onFailure(Call<ModelData> call, Throwable t) {
                 Log.d("","");
+                pbProgress.setVisibility(View.GONE);
+                vpMapList.setVisibility(View.VISIBLE);
             }
         });
 

@@ -11,6 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rv_list">
-
     </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/rv_list"
+        android:textColor="@android:color/white"
+        android:id="@+id/btn_create"
+        android:paddingTop="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/x_ds_background"
+        />
 </android.support.constraint.ConstraintLayout>

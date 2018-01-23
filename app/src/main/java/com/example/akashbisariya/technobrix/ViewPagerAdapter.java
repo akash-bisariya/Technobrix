@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 
 /**
@@ -13,9 +15,12 @@ import java.util.ArrayList;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     private ArrayList<ModelData.Data> eventArrayList = new ArrayList<>();
+
     public ViewPagerAdapter(FragmentManager fm, ArrayList<ModelData.Data> eventList) {
         super(fm);
         eventArrayList.addAll(eventList);
+
+
     }
 
     @Override
@@ -23,10 +28,14 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         switch (position)
         {
             case 0:
-                return new MapFragment();
+                MapFragment mapFragment = new MapFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("eventList",eventArrayList);
+                mapFragment.setArguments(bundle);
+                return mapFragment;
             case 1:
                 ListFragment listFragment =new ListFragment();
-                Bundle bundle = new Bundle();
+                bundle = new Bundle();
                 bundle.putSerializable("eventList",eventArrayList);
                 listFragment.setArguments(bundle);
                 return listFragment;

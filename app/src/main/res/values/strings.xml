@@ -2,4 +2,5 @@
     <string name="app_name">Technobrix</string>
     <string name="txt_map">Map</string>
     <string name="txt_list">List</string>
+    <string name="google_maps_key">AIzaSyDlGqA4ScnzxCPprAxNUtH7NaTp25-DYCA</string>
 </resources>

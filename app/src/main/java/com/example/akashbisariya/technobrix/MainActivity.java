@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPagerAdapter vpAdapter;
     private ProgressBar pbProgress;
     private ArrayList<ModelData.Data> eventList = new ArrayList<>();
-    private ArrayList<LatLng> latlongList= new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,12 +74,8 @@ public class MainActivity extends AppCompatActivity {
 //                vpAdapter.notifyDataSetChanged();
 
 
-                for(int i=0;i<eventList.size();i++)
-                {
-                    LatLng latLng = new LatLng(Double.parseDouble(eventList.get(i).getLatitude()),Double.parseDouble(eventList.get(i).getLongitude()));
-                    latlongList.add(latLng);
-                }
-                vpAdapter = new ViewPagerAdapter(getSupportFragmentManager(),eventList,latlongList);
+
+                vpAdapter = new ViewPagerAdapter(getSupportFragmentManager(),eventList);
                 vpMapList.setAdapter(vpAdapter);
                 tbMapList.setupWithViewPager(vpMapList);
                 vpMapList.setVisibility(View.VISIBLE);

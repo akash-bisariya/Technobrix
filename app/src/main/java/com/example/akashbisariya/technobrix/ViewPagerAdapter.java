@@ -15,11 +15,12 @@ import java.util.ArrayList;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     private ArrayList<ModelData.Data> eventArrayList = new ArrayList<>();
-    private ArrayList<LatLng> latLongList = new ArrayList<>();
-    public ViewPagerAdapter(FragmentManager fm, ArrayList<ModelData.Data> eventList, ArrayList<LatLng> latLngArrayList) {
+
+    public ViewPagerAdapter(FragmentManager fm, ArrayList<ModelData.Data> eventList) {
         super(fm);
         eventArrayList.addAll(eventList);
-        latLongList.addAll(latLngArrayList);
+
+
     }
 
     @Override
@@ -29,7 +30,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 MapFragment mapFragment = new MapFragment();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("latLongList",latLongList);
+                bundle.putSerializable("eventList",eventArrayList);
                 mapFragment.setArguments(bundle);
                 return mapFragment;
             case 1:

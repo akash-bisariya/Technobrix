@@ -75,10 +75,8 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         for (int j = 0; j < urlList.size(); j++) {
             setIcon(urlList.get(j), googleMap);
-
         }
 
     }
@@ -123,7 +121,6 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
             MarkerOptions markerOptions = new MarkerOptions().position(latLongList.get(i));
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(bitmapList.get(i)));
             googleMap.addMarker(markerOptions);
-
             builder.include(latLongList.get(i));
 
         }
@@ -136,11 +133,10 @@ public class MapFragment extends android.support.v4.app.Fragment implements OnMa
         googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                if (googleMap.getMapType() == googleMap.MAP_TYPE_NORMAL)
-                    googleMap.setMapType(googleMap.MAP_TYPE_SATELLITE);
+                if (googleMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL)
+                    googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                 else
-                    googleMap.setMapType(googleMap.MAP_TYPE_NORMAL);
-
+                    googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             }
         });
 
